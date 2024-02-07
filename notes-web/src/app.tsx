@@ -6,10 +6,10 @@ import { NoteCard } from "./components/note-cart";
 // h-px: altura com 1 px, apenas para criar a linha na página
 // outline-none: Retira borda automatica do navegador ao selecionar um input ou outro elemento
 
-const note ={
+const note = {
   date: new Date(),
-  content: 'Hello World'
-}
+  content: "Hello World",
+};
 
 export function App() {
   return (
@@ -25,8 +25,8 @@ export function App() {
       <div className="h-px bg-slate-700" />
       <div className="grid grid-cols-3 gap-6 auto-rows-[250px]">
         <NewNoteCard />
-        <NoteCard note={note}/>   
-        <NoteCard note={note}/>   
+        <NoteCard note={note} />
+        <NoteCard note={note} />
       </div>
     </div>
   );
