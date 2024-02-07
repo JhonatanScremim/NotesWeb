@@ -2,11 +2,24 @@ import * as Dialog from "@radix-ui/react-dialog";
 //Importa tudo da biblioteca radix react dialog e coloca em um objeto chamado Dialog
 
 import { X } from "lucide-react";
+import { ChangeEvent, useState } from "react";
 
 // space-y-6: Adiciona espaçamento de 6 em todos os elementos da div
 // gap-3: Ao utilizar Flex no tailwind, é utilizado gap para fazer o distanciamento
 
 export function NewNoteCard() {
+  const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
+
+  function handleStartEditor() {
+    setShouldShowOnboarding(false);
+  }
+
+  function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>) {
+    if (event.target.value === "") {
+      setShouldShowOnboarding(true);
+    }
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger className="rounded-md flex flex-col bg-slate-700 p-5 text-left gap-3 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400 outline-none">
@@ -25,17 +38,38 @@ export function NewNoteCard() {
             <X className="w-5 h-5" />
           </Dialog.Close>
           <div className="flex flex-1 flex-col gap-3 p-5">
-            <span className="text-sm font-medium text-slate-300">Adicionar nota</span>
-            <p className="text-sm leading-6 text-slate-400">
-              Comece <button className="font-medium text-lime-400 hover:underline">gravando uma nota</button> em áudio ou <button className="font-medium text-lime-400 hover:underline">utilize apenas texto</button>.
-            </p>
+            <span className="text-sm font-medium text-slate-300">
+              Adicionar nota
+            </span>
+            {shouldShowOnboarding == true ? (
+              <p className="text-sm leading-6 text-slate-400">
+                Comece{" "}
+                <button className="font-medium text-lime-400 hover:underline">
+                  gravando uma nota
+                </button>{" "}
+                em áudio ou{" "}
+                <button
+                  onClick={handleStartEditor}
+                  className="font-medium text-lime-400 hover:underline"
+                >
+                  utilize apenas texto
+                </button>
+                .
+              </p>
+            ) : (
+              <textarea
+                autoFocus
+                className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none"
+                onChange={handleContentChanged}
+              ></textarea>
+            )}
           </div>
 
           <button
             type="button"
             className="w-full bg-lime-400 py-4 text-center text-sm text-slate-950 outline-none font-medium hover:bg-lime-500"
           >
-              Salvar nota
+            Salvar nota
           </button>
         </Dialog.Content>
       </Dialog.Portal>
