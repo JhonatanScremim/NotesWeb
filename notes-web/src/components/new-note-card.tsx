@@ -8,7 +8,11 @@ import { toast } from "sonner";
 // space-y-6: Adiciona espaçamento de 6 em todos os elementos da div
 // gap-3: Ao utilizar Flex no tailwind, é utilizado gap para fazer o distanciamento
 
-export function NewNoteCard() {
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void;
+}
+
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
   const [content, setContent] = useState("");
 
@@ -26,7 +30,10 @@ export function NewNoteCard() {
 
   function handleSaveNote(event: FormEvent) {
     event.preventDefault(); //Evite de fechar a modal após salvar
-    console.log(content);
+    onNoteCreated(content);
+
+    setContent("");
+    setShouldShowOnboarding(true);
     toast.success("Nota criada com sucesso!");
   }
 
@@ -72,6 +79,7 @@ export function NewNoteCard() {
                   autoFocus
                   className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none"
                   onChange={handleContentChanged}
+                  value={content}
                 ></textarea>
               )}
             </div>
